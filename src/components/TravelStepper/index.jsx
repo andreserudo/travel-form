@@ -5,6 +5,10 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {
+  Confirmation, Payment, Success, TravelDetails, UserDetails,
+} from '..';
+import { WrapperPage } from './styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  section: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
 }));
 
 function getSteps() {
@@ -27,25 +37,6 @@ function getSteps() {
     'Confirmação',
     'Seu recibo',
   ];
-}
-
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return 'Dados da Viagem';
-    case 1:
-      return 'Forma de Pagamento';
-    case 2:
-      return 'Seus dados';
-    case 3:
-      return 'Confirmação';
-    case 4:
-      return 'Recibo';
-    case 5:
-      return 'Exibir um gif de fim';
-    default:
-      return 'Unknown stepIndex';
-  }
 }
 
 export default function TravelStepper() {
@@ -65,8 +56,25 @@ export default function TravelStepper() {
     setActiveStep(0);
   };
 
+  const showContent = (step) => {
+    switch (step) {
+      case 0:
+        return <TravelDetails />;
+      case 1:
+        return <Payment />;
+      case 2:
+        return <UserDetails />;
+      case 3:
+        return <Confirmation />;
+      case 4:
+        return <Success />;
+      default:
+        return 'Unknown stepIndex';
+    }
+  };
+
   return (
-    <div className={classes.root}>
+    <WrapperPage>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
@@ -75,15 +83,15 @@ export default function TravelStepper() {
         ))}
       </Stepper>
 
-      <div>
+      <main>
         {activeStep === steps.length ? (
           <div>
             <Typography className={classes.instructions}>All steps completed</Typography>
             <Button onClick={handleReset}>Nova Viagem</Button>
           </div>
         ) : (
-          <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+          <section>
+            { showContent(activeStep) }
             <div>
               <Button
                 disabled={activeStep === 0}
@@ -96,9 +104,10 @@ export default function TravelStepper() {
                 {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
               </Button>
             </div>
-          </div>
+          </section>
         )}
-      </div>
-    </div>
+      </main>
+    </WrapperPage>
+
   );
 }

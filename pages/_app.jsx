@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import GlobalStyle from '../src/themes/GlobalStyle';
 
 const theme = {
-  colors: {
-    primary: '#0070f3',
-  },
 };
 
 export default function App({ Component, pageProps }) {
@@ -19,7 +18,9 @@ export default function App({ Component, pageProps }) {
       </Head>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component pageProps={pageProps} />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Component pageProps={pageProps} />
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
     </>
   );
