@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import GlobalStyle from '../src/themes/GlobalStyle';
+import Provider from '../src/context/Provider';
 
 const theme = {
 };
@@ -17,11 +18,13 @@ export default function App({ Component, pageProps }) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Component pageProps={pageProps} />
-        </MuiPickersUtilsProvider>
-      </ThemeProvider>
+      <Provider>
+        <ThemeProvider theme={theme}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Component pageProps={pageProps} />
+          </MuiPickersUtilsProvider>
+        </ThemeProvider>
+      </Provider>
     </>
   );
 }
